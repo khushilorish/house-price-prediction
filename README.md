@@ -1,70 +1,181 @@
-🏠 House Price Prediction (Ames Dataset)
+# House Price Prediction API
 
-📌 Overview
+A Machine Learning API built with FastAPI that predicts house prices based on property features. The model is trained using the Ames Housing Dataset and served through a REST API.
 
-This project focuses on predicting house prices using the Ames Housing dataset. It demonstrates a complete machine learning workflow, from data cleaning to model evaluation.
+## Features
 
----
+- House price prediction using Machine Learning
+- FastAPI-based REST API
+- Automatic API documentation with Swagger UI
+- Data validation using Pydantic
+- Preprocessing and prediction handled through a saved Scikit-Learn pipeline
+- Easy testing through browser-based API interface
 
-🚀 What I Did
-
-- Cleaned dataset and handled missing values
-- Performed Exploratory Data Analysis (EDA)
-- Identified important features using correlation
-- Handled skewed data using log transformation
-- Created new features (Total SF, House Age)
-- Encoded categorical variables
-- Removed outliers and redundant features
-- Built and compared models:
-  - Linear Regression (baseline)
-  - Random Forest
-- Evaluated performance using MAE and RMSE
-
----
-
-📊 Key Insights
-
-- Overall Quality and Living Area are the strongest predictors of house price
-- Garage and Basement features significantly impact price
-- Log transformation improved prediction accuracy
-- Linear Regression performed slightly better due to strong linear relationships in data
-
----
-
-🧠 Models Performance
-
-Model| RMSE
-Linear Regression| ~0.125
-Random Forest| ~0.129
-
----
-
-🛠️ Tech Stack
+## Tech Stack
 
 - Python
-- Pandas, NumPy
-- Matplotlib, Seaborn
-- Scikit-learn
+- FastAPI
+- Scikit-Learn
+- Pandas
+- NumPy
+- Pydantic
+- Joblib
+- Uvicorn
 
----
+## Project Structure
 
-📁 Project Structure
+```text
+house-price-prediction/
+│
+├── app.py                     # Main FastAPI application
+├── schema.py                  # Input data schema
+├── requirements.txt           # Project dependencies
+├── README.md                  # Project documentation
+├── house_price_pipeline.pkl   # Trained ML pipeline
+├── feature_columns.pkl        # Feature columns used during training
+├── dataset.csv                # Dataset
+└── code.ipynb                 # Model training notebook
+```
 
-- "data/" → dataset files
-- "notebooks/" → Jupyter notebooks
-- "README.md" → project documentation
+## Dataset
 
----
+This project uses the Ames Housing Dataset, which contains various residential property features such as:
 
-📈 How to Run
+- Lot Area
+- Neighborhood
+- Overall Quality
+- Year Built
+- Garage Information
+- Basement Features
+- Total Square Footage
+- And many more
 
+The target variable is:
+
+```text
+SalePrice
+```
+
+## Machine Learning Pipeline
+
+The pipeline includes:
+
+1. Data Cleaning
+2. Missing Value Handling
+3. Feature Engineering
+4. One-Hot Encoding for Categorical Features
+5. Linear Regression Model Training
+6. Model Serialization using Joblib
+
+The entire preprocessing and prediction workflow is saved inside:
+
+```text
+house_price_pipeline.pkl
+```
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/khushilorish/house-price-prediction.git
+
+cd house-price-prediction
+```
+
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
-jupyter notebook
+```
 
----
+## Run the API
 
-🎯 Conclusion
+Start the FastAPI server:
 
-This project demonstrates a strong understanding of data preprocessing, feature engineering, and model evaluation. Linear Regression performed well due to clear linear relationships in the dataset, while Random Forest did not significantly improve performance.
+```bash
+uvicorn app:app --reload
+```
 
----
+Server will start at:
+
+```text
+http://127.0.0.1:8000
+```
+
+## API Documentation
+
+Interactive Swagger Documentation:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+Alternative ReDoc Documentation:
+
+```text
+http://127.0.0.1:8000/redoc
+```
+
+## API Endpoints
+
+### Home Endpoint
+
+```http
+GET /
+```
+
+Response:
+
+```json
+{
+    "message": "House Price Prediction API is running"
+}
+```
+
+### Prediction Endpoint
+
+```http
+POST /predict
+```
+
+Request Body:
+
+```json
+{
+    "MS_SubClass": 160,
+    "MS_Zoning": "RL",
+    "Lot_Frontage": 24,
+    "Lot_Area": 2308
+}
+```
+
+Response:
+
+```json
+{
+    "predicted_price": 207313.71
+}
+```
+
+## Example Prediction
+
+After providing all required house features, the API returns the estimated house price:
+
+```json
+{
+    "predicted_price": 207313.71
+}
+```
+
+## Learning Outcomes
+
+This project helped me understand:
+
+- Machine Learning model deployment
+- FastAPI fundamentals
+- REST API development
+- Pydantic data validation
+- Model serialization with Joblib
+- API testing with Swagger UI
+- End-to-end ML workflow
